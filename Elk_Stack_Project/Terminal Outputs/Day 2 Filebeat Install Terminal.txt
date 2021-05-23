@@ -1,0 +1,223 @@
+root@04a2b901a6ac:/# cat ~/.ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0EaOD99qA4eUV7vSxSQgr7cZm639TTwqpI3k3eI8O19ngpnPw1Pdc+kGxku1S/Cl2KgJsxUAlWPjcURV/VaAmJrkzz945d8k2Wu1EpnwfHxByAdU/YlmF3gQz4K49Q2QJdQyne3ZvGTD7MreQwnXBd9RJM3QvzCAFjdZ5eir4jhjVLn9fHoUzZMioXAemErJbFIjVv3XpK06oCfcAjLrPzJnXjAJAEy+NdrwE8Nytbq3R0J1Htr009u/8nAMRfs81PefesY7qUPsdzvLK/kbIhofSMMIP5wFTZ0NVFjpMrcemW/gtyoHKPFNtAtnqFlUD1i4S2V60pSxgtc2dnWLp root@04a2b901a6ac
+root@04a2b901a6ac:/# ls
+ bin   boot   dev   etc   home   lib   lib64   media   mnt   opt   proc   root   run   sbin   srv   sys   tmp   usr   var  '~'
+root@04a2b901a6ac:/# cd etc
+root@04a2b901a6ac:/etc# ls
+adduser.conf            default                   gss           ldap           nanorc         python3      securetty    systemd
+alternatives            deluser.conf              host.conf     legal          networks       python3.6    security     terminfo
+ansible                 dpkg                      hostname      libaudit.conf  nsswitch.conf  rc0.d        selinux      test5.txt
+apt                     environment               hosts         login.defs     opt            rc1.d        shadow       update-motd.d
+bash.bashrc             filebeat                  init.d        logrotate.d    os-release     rc2.d        shells       vim
+bindresvport.blacklist  filebeat-7.6.1-amd64.deb  inputrc       lsb-release    pam.conf       rc3.d        skel
+ca-certificates         fstab                     issue         machine-id     pam.d          rc4.d        ssh
+ca-certificates.conf    gai.conf                  issue.net     mailcap        passwd         rc5.d        ssl
+cron.daily              group                     kernel        mailcap.order  profile        rc6.d        subgid
+dbus-1                  group-                    ld.so.cache   mime.types     profile.d      rcS.d        subuid
+debconf.conf            gshadow                   ld.so.conf    mke2fs.conf    python         resolv.conf  sysctl.conf
+debian_version          gshadow-                  ld.so.conf.d  mtab           python2.7      rmt          sysctl.d
+root@04a2b901a6ac:/etc# cd ansible
+root@04a2b901a6ac:/etc/ansible# ls
+ELK_Server.yml  ansible.cfg  filebeat-config.yml  files  hosts  pentest.yml  roles
+root@04a2b901a6ac:/etc/ansible# cd roles
+root@04a2b901a6ac:/etc/ansible/roles# ls
+filebeat-7.4.0-amd64.deb  filebeat-7.6.1-amd64.deb  filebeat-playbook.yml
+root@04a2b901a6ac:/etc/ansible/roles# vim filebeat-playbook.yml
+root@04a2b901a6ac:/etc/ansible/roles# ssh azadmin@10.1.0.4
+Welcome to Ubuntu 18.04.5 LTS (GNU/Linux 5.4.0-1047-azure x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Thu May 20 22:33:11 UTC 2021
+
+  System load:  0.0                Processes:              131
+  Usage of /:   16.2% of 28.90GB   Users logged in:        0
+  Memory usage: 69%                IP address for eth0:    10.1.0.4
+  Swap usage:   0%                 IP address for docker0: 172.17.0.1
+
+ * Super-optimized for small spaces - read how we shrank the memory
+   footprint of MicroK8s to make it the smallest full K8s around.
+
+   https://ubuntu.com/blog/microk8s-memory-optimisation
+
+ * Canonical Livepatch is available for installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+5 updates can be applied immediately.
+1 of these updates is a standard security update.
+To see these additional updates run: apt list --upgradable
+
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+azadmin@ELK-Server:~$ exit
+logout
+Connection to 10.1.0.4 closed.
+root@04a2b901a6ac:/etc/ansible/roles# ansible-playbook filebeat-playbook.yml
+
+PLAY [Installing and Launch Filebeat] *****************************************************************************************************
+
+TASK [Gathering Facts] ********************************************************************************************************************
+ok: [10.0.0.6]
+ok: [10.0.0.5]
+ok: [10.0.0.7]
+
+TASK [Download filebeat .deb file] ********************************************************************************************************
+[WARNING]: Consider using the get_url or uri module rather than running 'curl'.  If you need to use command because get_url or uri is
+insufficient you can add 'warn: false' to this command task or set 'command_warnings=False' in ansible.cfg to get rid of this message.
+
+changed: [10.0.0.6]
+changed: [10.0.0.7]
+changed: [10.0.0.5]
+
+TASK [Install filebeat .deb] **************************************************************************************************************
+fatal: [10.0.0.5]: FAILED! => {"changed": true, "cmd": ["dpkg", "-i", "filebeat-7.4.0-amd64.deb"], "delta": "0:00:00.013019", "end": "2021-05-20 22:33:41.325601", "msg": "non-zero return code", "rc": 2, "start": "2021-05-20 22:33:41.312582", "stderr": "dpkg: error: cannot access archive 'filebeat-7.4.0-amd64.deb': No such file or directory", "stderr_lines": ["dpkg: error: cannot access archive 'filebeat-7.4.0-amd64.deb': No such file or directory"], "stdout": "", "stdout_lines": []}
+fatal: [10.0.0.6]: FAILED! => {"changed": true, "cmd": ["dpkg", "-i", "filebeat-7.4.0-amd64.deb"], "delta": "0:00:00.012849", "end": "2021-05-20 22:33:41.324466", "msg": "non-zero return code", "rc": 2, "start": "2021-05-20 22:33:41.311617", "stderr": "dpkg: error: cannot access archive 'filebeat-7.4.0-amd64.deb': No such file or directory", "stderr_lines": ["dpkg: error: cannot access archive 'filebeat-7.4.0-amd64.deb': No such file or directory"], "stdout": "", "stdout_lines": []}
+fatal: [10.0.0.7]: FAILED! => {"changed": true, "cmd": ["dpkg", "-i", "filebeat-7.4.0-amd64.deb"], "delta": "0:00:00.022397", "end": "2021-05-20 22:33:41.385863", "msg": "non-zero return code", "rc": 2, "start": "2021-05-20 22:33:41.363466", "stderr": "dpkg: error: cannot access archive 'filebeat-7.4.0-amd64.deb': No such file or directory", "stderr_lines": ["dpkg: error: cannot access archive 'filebeat-7.4.0-amd64.deb': No such file or directory"], "stdout": "", "stdout_lines": []}
+
+PLAY RECAP ********************************************************************************************************************************
+10.0.0.5                   : ok=2    changed=1    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+10.0.0.6                   : ok=2    changed=1    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+10.0.0.7                   : ok=2    changed=1    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+
+root@04a2b901a6ac:/etc/ansible/roles# vim filebeat-playbook.yml
+root@04a2b901a6ac:/etc/ansible/roles# ssh azadmin@10.0.0.5
+Welcome to Ubuntu 18.04.5 LTS (GNU/Linux 5.4.0-1047-azure x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Thu May 20 22:35:11 UTC 2021
+
+  System load:  0.0               Processes:           108
+  Usage of /:   4.8% of 28.90GB   Users logged in:     0
+  Memory usage: 12%               IP address for eth0: 10.0.0.5
+  Swap usage:   0%
+
+ * Super-optimized for small spaces - read how we shrank the memory
+   footprint of MicroK8s to make it the smallest full K8s around.
+
+   https://ubuntu.com/blog/microk8s-memory-optimisation
+
+ * Canonical Livepatch is available for installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+5 updates can be applied immediately.
+1 of these updates is a standard security update.
+To see these additional updates run: apt list --upgradable
+
+New release '20.04.2 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+Last login: Thu May 20 22:33:41 2021 from 10.0.0.4
+azadmin@web1:~$ ls
+azadmin@web1:~$ exit
+logout
+Connection to 10.0.0.5 closed.
+root@04a2b901a6ac:/etc/ansible/roles# vim filebeat-playbook.yml
+root@04a2b901a6ac:/etc/ansible/roles# vim filebeat-playbook.yml
+root@04a2b901a6ac:/etc/ansible/roles# ansible-playbook filebeat-playbook.yml
+
+PLAY [Installing and Launch Filebeat] *****************************************************************************************************
+
+TASK [Gathering Facts] ********************************************************************************************************************
+ok: [10.0.0.7]
+ok: [10.0.0.5]
+ok: [10.0.0.6]
+
+TASK [Download filebeat .deb file] ********************************************************************************************************
+[WARNING]: Consider using the get_url or uri module rather than running 'curl'.  If you need to use command because get_url or uri is
+insufficient you can add 'warn: false' to this command task or set 'command_warnings=False' in ansible.cfg to get rid of this message.
+
+changed: [10.0.0.5]
+changed: [10.0.0.6]
+changed: [10.0.0.7]
+
+TASK [Install filebeat .deb] **************************************************************************************************************
+changed: [10.0.0.5]
+changed: [10.0.0.7]
+changed: [10.0.0.6]
+
+TASK [Drop in filebeat.yml] ***************************************************************************************************************
+changed: [10.0.0.6]
+changed: [10.0.0.7]
+changed: [10.0.0.5]
+
+TASK [Enable and Configure System Module] *************************************************************************************************
+changed: [10.0.0.5]
+changed: [10.0.0.7]
+changed: [10.0.0.6]
+
+TASK [Setup filebeat] *********************************************************************************************************************
+changed: [10.0.0.5]
+changed: [10.0.0.7]
+changed: [10.0.0.6]
+
+TASK [Start filebeat service] *************************************************************************************************************
+[WARNING]: Consider using the service module rather than running 'service'.  If you need to use command because service is insufficient
+you can add 'warn: false' to this command task or set 'command_warnings=False' in ansible.cfg to get rid of this message.
+
+changed: [10.0.0.5]
+changed: [10.0.0.6]
+changed: [10.0.0.7]
+
+PLAY RECAP ********************************************************************************************************************************
+10.0.0.5                   : ok=7    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+10.0.0.6                   : ok=7    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+10.0.0.7                   : ok=7    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+root@04a2b901a6ac:/etc/ansible/roles# ssh azadmin@10.1.0.4
+Welcome to Ubuntu 18.04.5 LTS (GNU/Linux 5.4.0-1047-azure x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Thu May 20 22:39:24 UTC 2021
+
+  System load:  0.09               Processes:              129
+  Usage of /:   16.2% of 28.90GB   Users logged in:        0
+  Memory usage: 70%                IP address for eth0:    10.1.0.4
+  Swap usage:   0%                 IP address for docker0: 172.17.0.1
+
+ * Super-optimized for small spaces - read how we shrank the memory
+   footprint of MicroK8s to make it the smallest full K8s around.
+
+   https://ubuntu.com/blog/microk8s-memory-optimisation
+
+ * Canonical Livepatch is available for installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+5 updates can be applied immediately.
+1 of these updates is a standard security update.
+To see these additional updates run: apt list --upgradable
+
+New release '20.04.2 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+Last login: Thu May 20 22:33:12 2021 from 10.0.0.4
+azadmin@ELK-Server:~$ sudo docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED      STATUS      PORTS                                                                              NAMES
+c9ef64b9b6c2   sebp/elk:761   "/usr/local/bin/star…"   5 days ago   Up 5 days   0.0.0.0:5044->5044/tcp, 0.0.0.0:5601->5601/tcp, 0.0.0.0:9200->9200/tcp, 9300/tcp   elk
+azadmin@ELK-Server:~$ sudo docker stop elk
+elk
+azadmin@ELK-Server:~$ sudo docker start elk
+elk
+azadmin@ELK-Server:~$ sudo docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED      STATUS         PORTS                                                                              NAMES
+c9ef64b9b6c2   sebp/elk:761   "/usr/local/bin/star…"   5 days ago   Up 4 seconds   0.0.0.0:5044->5044/tcp, 0.0.0.0:5601->5601/tcp, 0.0.0.0:9200->9200/tcp, 9300/tcp   elk
+azadmin@ELK-Server:~$
