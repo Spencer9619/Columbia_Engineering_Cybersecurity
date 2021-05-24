@@ -1,5 +1,8 @@
 Help Received: Followed Tom's and Deepak's slack conversation about how to properly configure everything to be able to get to http://MY_IP/app/kibana.
 
 For ELK Project README File.docx:
- 1. Paraphrased from Footnote #1, #2, #3, #6
+ 1. Paraphrased from Footnote #1, #2, #3, #6, #7
  2. Copied from Footnote #5
+ 3. Used Sebastain TA's readme file on his github as a guide, he said I could.
+For coding portion of project:
+Andrew, Seabstain and Daniel for helping me troubleshoot my configurations.
